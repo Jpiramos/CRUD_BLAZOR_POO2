@@ -1,0 +1,23 @@
+﻿@page "/instituicoes"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject CRUD_ACADEMICO.Data.CrudContext DB
+@using CRUD_ACADEMICO.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Instituições</h1>
+
+<p>
+    <a href="instituicoes/create">Adicionar nova Instituição</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Instituicoes">
+    <PropertyColumn Property="instituicao => instituicao.Nome" />
+    <PropertyColumn Property="instituicao => instituicao.Endereco" />
+
+    <TemplateColumn Context="instituicao">
+        <a href="@($"instituicoes/edit?instituicaoid={instituicao.InstituicaoID}")">Editar</a> |
+        <a href="@($"instituicoes/details?instituicaoid={instituicao.InstituicaoID}")">Detalhes</a> |
+        <a href="@($"instituicoes/delete?instituicaoid={instituicao.InstituicaoID}")">Deletar</a>
+    </TemplateColumn>
+</QuickGrid>

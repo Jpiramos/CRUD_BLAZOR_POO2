@@ -1,0 +1,23 @@
+﻿@page "/departamentos"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject CRUD_ACADEMICO.Data.CrudContext DB
+@using CRUD_ACADEMICO.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Departamentos</h1>
+
+<p>
+    <a href="departamentos/create">Adicionar novo Departamento</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Departamentos">
+    <PropertyColumn Property="departamento => departamento.Nome" />
+    <PropertyColumn Property="departamento => departamento.InstituicaoId" />
+
+    <TemplateColumn Context="departamento">
+        <a href="@($"departamentos/edit?departamentoid={departamento.DepartamentoID}")">Editar</a> |
+        <a href="@($"departamentos/details?departamentoid={departamento.DepartamentoID}")">Detalhes</a> |
+        <a href="@($"departamentos/delete?departamentoid={departamento.DepartamentoID}")">Deletar</a>
+    </TemplateColumn>
+</QuickGrid>

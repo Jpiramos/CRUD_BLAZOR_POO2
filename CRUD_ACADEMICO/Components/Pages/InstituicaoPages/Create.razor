@@ -1,0 +1,56 @@
+﻿@page "/instituicoes/create"
+@inject CRUD_ACADEMICO.Data.CrudContext DB
+@using CRUD_ACADEMICO.Models
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Adicionar</h1>
+
+<h4>Instituicao</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Instituicao" OnValidSubmit="AddInstituicao" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+
+           <div hidden class="mb-3">
+               <label for="id" class="form-label">ID da Instituição:</label>
+                <InputNumber id="nome" @bind-Value="Instituicao.InstituicaoID" class="form-control" />
+                <ValidationMessage For="() => Instituicao.InstituicaoID" class="text-danger" />
+           </div>
+           
+
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label> 
+                <InputText id="nome" @bind-Value="Instituicao.Nome" class="form-control" /> 
+                <ValidationMessage For="() => Instituicao.Nome" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="endereco" class="form-label">Endereco:</label> 
+                <InputText id="endereco" @bind-Value="Instituicao.Endereco" class="form-control" /> 
+                <ValidationMessage For="() => Instituicao.Endereco" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/instituicaos">Voltar à lista</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Instituicao Instituicao { get; set; } = new();
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddInstituicao()
+    {
+        DB.Instituicoes.Add(Instituicao);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/instituicoes");
+    }
+}

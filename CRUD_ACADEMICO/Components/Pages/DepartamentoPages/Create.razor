@@ -1,0 +1,72 @@
+﻿@page "/departamentos/create"
+@inject CRUD_ACADEMICO.Data.CrudContext DB
+@using CRUD_ACADEMICO.Models
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Criar</h1>
+
+<h4>Departamento</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Departamento" OnValidSubmit="AddDepartamento" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+
+            <div hidden class="mb-3">
+                <label for="id" class="form-label">ID do Departamento:</label>
+                <InputNumber id="id" @bind-Value="Departamento.DepartamentoID" class="form-control" />
+                <ValidationMessage For="() => Departamento.DepartamentoID" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <InputText id="nome" @bind-Value="Departamento.Nome" class="form-control" />
+                <ValidationMessage For="() => Departamento.Nome" class="text-danger" />
+            </div>
+
+            <div class="form-group">
+                <label for="InstituicaoId" class="form-label">Id da Instituicao:</label>
+                <InputNumber id="instituicaoid" @bind-Value="Departamento.InstituicaoId" class="form-control" />
+                <ValidationMessage For="() =>  Departamento.InstituicaoId" class="text-danger" />
+            </div>
+
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ErrorMessage
+                </div>
+            }
+
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/departamentos">Voltar à lista</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Departamento Departamento { get; set; } = new();
+
+    public string ErrorMessage { get; set; }
+
+
+    public async Task AddDepartamento()
+    {
+        var instituicao = await DB.Instituicoes.FindAsync(Departamento.InstituicaoId);
+        if (instituicao == null)
+        {
+            ErrorMessage = "A instituição selecionada não existe.";
+            return;
+        }
+
+        DB.Departamentos.Add(Departamento);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/departamentos");
+    }
+}
