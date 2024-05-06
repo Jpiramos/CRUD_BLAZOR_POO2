@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRUD_ACADEMICO.Migrations
 {
     [DbContext(typeof(CrudContext))]
-    [Migration("20240503152235_PrimeiraMigration")]
+    [Migration("20240506152529_PrimeiraMigration")]
     partial class PrimeiraMigration
     {
         /// <inheritdoc />
